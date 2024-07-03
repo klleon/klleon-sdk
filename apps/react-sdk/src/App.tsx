@@ -5,7 +5,6 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
-  const test = 42;
 
   return (
     <>

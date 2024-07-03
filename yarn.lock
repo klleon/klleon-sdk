@@ -2057,6 +2057,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "klleon-sdk@workspace:."
   dependencies:
+    eslint: "npm:^8.57.0"
     prettier: "npm:^3.3.2"
     typescript: "npm:^5.5.3"
   languageName: unknown

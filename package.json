@@ -8,9 +8,11 @@
     ]
   },
   "scripts": {
-    "react:dev": "yarn workspace react-sdk dev"
+    "react:dev": "yarn workspace react-sdk dev",
+    "lint": "eslint ./apps --ext .ts,.tsx,.js,.jsx --fix"
   },
   "devDependencies": {
+    "eslint": "^8.57.0",
     "prettier": "^3.3.2",
     "typescript": "^5.5.3"
   }
