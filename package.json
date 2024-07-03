@@ -1,4 +1,17 @@
 {
-  "name": "klleon-chat-sdk",
-  "packageManager": "yarn@4.3.1"
+  "name": "klleon-sdk",
+  "packageManager": "yarn@4.3.1",
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "react:dev": "yarn workspace react-sdk dev"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.3"
+  }
 }
