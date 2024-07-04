@@ -9,7 +9,7 @@ export default defineConfig({
     lib: {
       entry: "src/index.tsx",
       name: "MyLibrary",
-      formats: ["umd"],
+      formats: ["es"],
     },
     rollupOptions: {
       output: {
