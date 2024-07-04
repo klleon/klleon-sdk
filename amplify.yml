@@ -15,6 +15,15 @@ applications:
         baseDirectory: apps/react-sdk/dist
         files:
           - "**/*"
+        customHeaders:
+          - pattern: "*.js"
+            headers:
+              - key: "Access-Control-Allow-Origin"
+                value: "*" # 모든 출처에서의 접근을 허용, 보안이 중요한 경우 특정 도메인으로 제한 필요
+              - key: "Access-Control-Allow-Methods"
+                value: "GET"
+              - key: "Access-Control-Allow-Headers"
+                value: "Content-Type, X-Requested-With"
       cache:
         paths:
           - node_modules/**/*
