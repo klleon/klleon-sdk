@@ -13,7 +13,7 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        format: "umd",
+        format: "es",
         name: "react-sdk",
         globals: {
           react: "React",
