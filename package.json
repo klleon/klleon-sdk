@@ -9,11 +9,14 @@
   },
   "scripts": {
     "react:dev": "yarn workspace react-sdk dev",
+    "react:build": "yarn workspace react-sdk build:prod",
     "lint": "eslint ./apps --ext .ts,.tsx,.js,.jsx --fix"
   },
   "devDependencies": {
+    "debug": "^4.3.5",
     "eslint": "^8.57.0",
     "prettier": "^3.3.2",
+    "supports-color": "^9.4.0",
     "typescript": "^5.5.3"
   }
 }
