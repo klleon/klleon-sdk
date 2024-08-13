@@ -1,6 +1,7 @@
 version: 1
 applications:
-  - frontend:
+  - appRoot: apps/react-sdk
+    frontend:
       phases:
         preBuild:
           commands:
@@ -16,7 +17,7 @@ applications:
           - "**/*"
       cache:
         paths:
-          - "node_modules/**/*"
+          - node_modules/**/*
       buildPath: /
 
   - appRoot: apps/js-sdk
@@ -36,6 +37,5 @@ applications:
           - "**/*"
       cache:
         paths:
-          - "node_modules/**/*"
+          - node_modules/**/*
       buildPath: /
-    appRoot: apps/js-sdk
