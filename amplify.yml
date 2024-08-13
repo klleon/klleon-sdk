@@ -7,6 +7,7 @@ applications:
           commands:
             - nvm use 18
             - yarn install
+            - export AMPLIFY_MONOREPO_APP_ROOT=apps/react-sdk
         build:
           commands:
             - cd apps/react-sdk
@@ -30,6 +31,7 @@ applications:
           commands:
             - cd apps/js-sdk
             - yarn build:prod
+            - export AMPLIFY_MONOREPO_APP_ROOT=apps/js-sdk
       artifacts:
         baseDirectory: apps/js-sdk/dist
         files:
