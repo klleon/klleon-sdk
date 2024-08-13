@@ -11,11 +11,11 @@ applications:
             - cd $AMPLIFY_MONOREPO_APP_ROOT
             - yarn build:prod
       artifacts:
-        baseDirectory: $AMPLIFY_MONOREPO_APP_ROOT/dist
+        baseDirectory: apps/react-sdk/dist
         files:
           - "**/*"
       cache:
         paths:
           - node_modules/**/*
       buildPath: /
-    appRoot: apps
+    appRoot: apps/react-sdk
