@@ -1,6 +1,27 @@
 version: 1
 applications:
-  - appRoot: AMPLIFY_MONOREPO_APP_ROOT
+  - appRoot: apps/react-sdk
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - nvm use 18
+            - yarn install
+            - export AMPLIFY_MONOREPO_APP_ROOT=apps/react-sdk
+        build:
+          commands:
+            - export AMPLIFY_MONOREPO_APP_ROOT=apps/react-sdk
+            - cd $AMPLIFY_MONOREPO_APP_ROOT
+            - yarn build:prod
+      artifacts:
+        baseDirectory: apps/react-sdk/dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - node_modules/**/*
+      buildPath: /
+  - appRoot: apps/js-sdk
     frontend:
       phases:
         preBuild:
@@ -9,11 +30,11 @@ applications:
             - yarn install
         build:
           commands:
-            - cd AMPLIFY_MONOREPO_APP_ROOT
-            - yarn build:prod
             - export AMPLIFY_MONOREPO_APP_ROOT=apps/js-sdk
+            - cd $AMPLIFY_MONOREPO_APP_ROOT
+            - yarn build:prod
       artifacts:
-        baseDirectory: AMPLIFY_MONOREPO_APP_ROOT/dist
+        baseDirectory: apps/js-sdk/dist
         files:
           - "**/*"
       cache:
