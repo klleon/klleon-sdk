@@ -9,10 +9,10 @@ applications:
             - yarn install
         build:
           commands:
-            - cd $AMPLIFY_MONOREPO_APP_ROOT
+            - cd apps/js-sdk
             - yarn build:prod
       artifacts:
-        baseDirectory: $AMPLIFY_MONOREPO_APP_ROOT/dist
+        baseDirectory: apps/js-sdk/dist
         files:
           - "**/*"
       cache:
