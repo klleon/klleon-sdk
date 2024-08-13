@@ -12,13 +12,13 @@ applications:
             - cd apps/react-sdk
             - yarn build:prod
       artifacts:
-        baseDirectory: dist
+        baseDirectory: apps/react-sdk/dist
         files:
           - "**/*"
       cache:
         paths:
           - node_modules/**/*
-      buildPath: apps/react-sdk
+      buildPath: /
   - appRoot: apps/js-sdk
     frontend:
       phases:
@@ -31,10 +31,10 @@ applications:
             - cd apps/js-sdk
             - yarn build:prod
       artifacts:
-        baseDirectory: dist
+        baseDirectory: apps/js-sdk/dist
         files:
           - "**/*"
       cache:
         paths:
           - node_modules/**/*
-      buildPath: apps/js-sdk
+      buildPath: /
