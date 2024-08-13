@@ -18,9 +18,9 @@ applications:
         paths:
           - "node_modules/**/*"
       buildPath: /
-    appRoot: apps/react-sdk
 
-  - frontend:
+  - appRoot: apps/js-sdk
+    frontend:
       phases:
         preBuild:
           commands:
