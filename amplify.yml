@@ -9,7 +9,7 @@ applications:
           - cd apps/react-sdk
           - yarn build:prod
       artifacts:
-        baseDirectory: apps/react-sdk/dist
+        baseDirectory: dist
         files:
           - "**/*"
       cache:
@@ -26,7 +26,7 @@ applications:
           - cd apps/js-sdk
           - yarn build:prod
       artifacts:
-        baseDirectory: apps/js-sdk/dist
+        baseDirectory: dist
         files:
           - "**/*"
       cache:
