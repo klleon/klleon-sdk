@@ -10,8 +10,8 @@
   },
   "scripts": {
     "js:dev": "yarn workspace js-sdk dev",
-    "react:dev": "yarn workspace react-sdk dev",
-    "react:build": "yarn workspace react-sdk build:prod",
+    "react:dev": "yarn workspace @klleon/react-sdk dev",
+    "react:build": "yarn workspace @klleon/react-sdk build:prod",
     "lint": "eslint ./apps --ext .ts,.tsx,.js,.jsx --fix"
   },
   "devDependencies": {
