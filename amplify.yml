@@ -1,7 +1,6 @@
 version: 1
 applications:
-  - appRoot: apps/react-sdk
-    frontend:
+  - frontend:
       phases:
         preBuild:
           commands:
@@ -9,7 +8,7 @@ applications:
             - yarn install
         build:
           commands:
-            - cd apps/react-sdk
+            - cd $AMPLIFY_MONOREPO_APP_ROOT
             - yarn build:prod
       artifacts:
         baseDirectory: apps/react-sdk/dist
@@ -19,8 +18,8 @@ applications:
         paths:
           - node_modules/**/*
       buildPath: /
-  - appRoot: apps/js-sdk
-    frontend:
+    appRoot: apps/react-sdk
+  - frontend:
       phases:
         preBuild:
           commands:
@@ -28,7 +27,7 @@ applications:
             - yarn install
         build:
           commands:
-            - cd apps/js-sdk
+            - cd $AMPLIFY_MONOREPO_APP_ROOT
             - yarn build:prod
       artifacts:
         baseDirectory: apps/js-sdk/dist
@@ -38,3 +37,4 @@ applications:
         paths:
           - node_modules/**/*
       buildPath: /
+    appRoot: apps/js-sdk
