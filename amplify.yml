@@ -1,7 +1,6 @@
 version: 1
 applications:
-  - appRoot: apps/react-sdk
-    frontend:
+  - frontend:
       phases:
         preBuild:
           commands:
@@ -9,6 +8,7 @@ applications:
             - yarn install
         build:
           commands:
+            - cd apps/react-sdk
             - yarn build:prod
       artifacts:
         baseDirectory: apps/react-sdk/dist
@@ -18,9 +18,9 @@ applications:
         paths:
           - "node_modules/**/*"
       buildPath: /
+    appRoot: apps/react-sdk
 
-  - appRoot: apps/js-sdk
-    frontend:
+  - frontend:
       phases:
         preBuild:
           commands:
@@ -28,6 +28,7 @@ applications:
             - yarn install
         build:
           commands:
+            - cd apps/js-sdk
             - yarn build:prod
       artifacts:
         baseDirectory: apps/js-sdk/dist
@@ -37,3 +38,4 @@ applications:
         paths:
           - "node_modules/**/*"
       buildPath: /
+    appRoot: apps/js-sdk
