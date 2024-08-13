@@ -1,0 +1,40 @@
+version: 1
+applications:
+  - appRoot: apps/js-sdk
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "PreBuild apps/js-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - nvm use 18
+            - yarn install
+        build:
+          commands:
+            - echo "Build apps/js-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - yarn build:prod
+      artifacts:
+        baseDirectory: dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - "node_modules/**/*"
+  - appRoot: apps/react-sdk
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "PreBuild apps/react-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - nvm use 18
+            - yarn install
+        build:
+          commands:
+            - echo "Build apps/react-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - yarn build:prod
+      artifacts:
+        baseDirectory: dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - "node_modules/**/*"
