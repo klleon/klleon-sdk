@@ -1,0 +1,36 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          - nvm use 18
+          - yarn install
+        build:
+          - cd apps/react-sdk
+          - yarn build:prod
+      artifacts:
+        baseDirectory: apps/react-sdk/dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - "node_modules/**/*"
+      buildPath: /
+    appRoot: apps/react-sdk
+  - frontend:
+      phases:
+        preBuild:
+          - nvm use 18
+          - yarn install
+        build:
+          - cd apps/js-sdk
+          - yarn build:prod
+      artifacts:
+        baseDirectory: apps/js-sdk/dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - "node_modules/**/*"
+      buildPath: /
+    appRoot: apps/js-sdk
