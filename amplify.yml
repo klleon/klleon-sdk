@@ -1,7 +1,6 @@
 version: 1
 applications:
-  - appRoot: apps/js-sdk
-    frontend:
+  - frontend:
       phases:
         preBuild:
           commands:
