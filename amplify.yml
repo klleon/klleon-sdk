@@ -11,14 +11,16 @@ applications:
         build:
           commands:
             - echo "Build apps/js-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - cd apps/js-sdk
             - yarn build:prod
       artifacts:
-        baseDirectory: dist
+        baseDirectory: apps/js-sdk/dist
         files:
           - "**/*"
       cache:
         paths:
           - "node_modules/**/*"
+      buildPath: /
   - appRoot: apps/react-sdk
     frontend:
       phases:
@@ -30,11 +32,13 @@ applications:
         build:
           commands:
             - echo "Build apps/react-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - cd apps/react-sdk
             - yarn build:prod
       artifacts:
-        baseDirectory: dist
+        baseDirectory: apps/react-sdk/dist
         files:
           - "**/*"
       cache:
         paths:
           - "node_modules/**/*"
+      buildPath: /
