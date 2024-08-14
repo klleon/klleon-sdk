@@ -11,10 +11,10 @@ applications:
         build:
           commands:
             - echo "Build apps/react-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
-            - cd apps/react-sdk
+            - cd $AMPLIFY_MONOREPO_APP_ROOT
             - yarn build:prod
       artifacts:
-        baseDirectory: apps/react-sdk/dist
+        baseDirectory: $AMPLIFY_MONOREPO_APP_ROOT/dist
         files:
           - "**/*"
       cache:
