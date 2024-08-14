@@ -11,7 +11,7 @@ applications:
             - cd apps/$SERVICE
             - yarn build:prod
       artifacts:
-        baseDirectory: dist
+        baseDirectory: apps/$SERVICE/dist
         files:
           - "**/*"
       cache:
