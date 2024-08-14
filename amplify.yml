@@ -1,20 +1,26 @@
 version: 1
 applications:
-  - appRoot: apps/vue
+  - appRoot: app
     frontend:
       phases:
         preBuild:
           commands:
-            - echo "PreBuild apps/vue AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - echo "PreBuild app AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+  - appRoot: vue
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "PreBuild vue AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
             - nvm use 18
             - yarn install
         build:
           commands:
-            - echo "Build apps/vue AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
-            - cd apps/vue
+            - echo "Build vue AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - cd vue
             - yarn build:prod
       artifacts:
-        baseDirectory: apps/vue/dist
+        baseDirectory: vue/dist
         files:
           - "**/*"
       cache:
