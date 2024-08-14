@@ -1,6 +1,6 @@
 version: 1
 applications:
-  - appRoot: apps/react-sdk
+  - appRoot: react-sdk
     frontend:
       phases:
         preBuild:
@@ -21,7 +21,7 @@ applications:
         paths:
           - "node_modules/**/*"
       buildPath: /
-  - appRoot: apps/js-sdk
+  - appRoot: js-sdk
     frontend:
       phases:
         preBuild:
