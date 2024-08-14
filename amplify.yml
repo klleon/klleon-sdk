@@ -1,41 +1,5 @@
 version: 1
 applications:
-  - appRoot: apps/js-sdk
-    frontend:
-      buildPath: apps/js-sdk
-      phases:
-        preBuild:
-          commands:
-            - nvm use 18
-            - yarn install
-        build:
-          commands:
-            - yarn build:prod
-      artifacts:
-        baseDirectory: dist
-        files:
-          - "**/*"
-      cache:
-        paths:
-          - "node_modules/**/*"
-  - appRoot: apps/react-sdk
-    frontend:
-      buildPath: apps/react-sdk
-      phases:
-        preBuild:
-          commands:
-            - nvm use 18
-            - yarn install
-        build:
-          commands:
-            - yarn build:prod
-      artifacts:
-        baseDirectory: dist
-        files:
-          - "**/*"
-      cache:
-        paths:
-          - "node_modules/**/*"
   - appRoot: apps/vue-sdk
     frontend:
       buildPath: apps/vue-sdk
