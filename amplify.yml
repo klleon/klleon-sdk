@@ -8,12 +8,12 @@ applications:
             - yarn install
         build:
           commands:
-            - cd apps/$SERVICE
             - yarn build:prod
       artifacts:
-        baseDirectory: apps/$SERVICE/dist
+        baseDirectory: dist
         files:
           - "**/*"
       cache:
         paths:
           - "node_modules/**/*"
+      buildpath: apps/$SERVICE
