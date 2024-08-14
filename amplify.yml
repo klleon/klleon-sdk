@@ -12,7 +12,7 @@ applications:
           commands:
             - yarn build:prod
       artifacts:
-        baseDirectory: apps/vue-sdk/dist
+        baseDirectory: dist
         files:
           - "**/*"
       cache:
