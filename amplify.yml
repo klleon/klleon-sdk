@@ -42,3 +42,24 @@ applications:
         paths:
           - "node_modules/**/*"
       buildPath: /
+  - appRoot: apps/vue-sdk
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "PreBuild apps/vue-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - nvm use 18
+            - yarn install
+        build:
+          commands:
+            - echo "Build apps/vue-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
+            - cd apps/vue-sdk
+            - yarn build:prod
+      artifacts:
+        baseDirectory: apps/vue-sdk/dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - "node_modules/**/*"
+      buildPath: /
