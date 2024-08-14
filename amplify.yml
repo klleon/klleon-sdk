@@ -4,13 +4,11 @@ applications:
       phases:
         preBuild:
           commands:
-            - echo "PreBuild apps/js-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
             - nvm use 18
             - yarn install
         build:
           commands:
-            - echo "Build apps/js-sdk AMPLIFY_MONOREPO_APP_ROOT= $AMPLIFY_MONOREPO_APP_ROOT"
-            - cd $AMPLIFY_MONOREPO_APP_ROOT
+            - cd $SERVICE
             - yarn build:prod
       artifacts:
         baseDirectory: dist
