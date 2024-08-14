@@ -1,7 +1,6 @@
 version: 1
 applications:
-  - appRoot: apps/$SERVICE
-    frontend:
+  - frontend:
       phases:
         preBuild:
           commands:
@@ -17,4 +16,4 @@ applications:
       cache:
         paths:
           - "node_modules/**/*"
-      buildPath: /
+      buildPath: apps/vue-sdk
