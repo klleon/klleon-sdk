@@ -14,6 +14,7 @@ export default defineConfig({
       formats: ['es', 'cjs', 'umd'],
       fileName: (format) => `klleon-sdk.${format}.js`,
     },
+    cssCodeSplit: false,
     // rollupOptions: {
     //   output: {
     //     format: 'es',
