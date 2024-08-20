@@ -8,14 +8,9 @@ applications:
           commands:
             - nvm use 18
             - yarn install
-            - export VERSION=$(node -p -e "require('./package.json').version")
         build:
           commands:
-            - yarn build
-        postBuild:
-          commands:
-            - aws s3 cp ./dist/ s3://your-s3-bucket/$VERSION/ --recursive
-            - aws s3 cp ./dist/ s3://your-s3-bucket/latest/ --recursive
+            - yarn build:prod
       artifacts:
         baseDirectory: dist
         files:
