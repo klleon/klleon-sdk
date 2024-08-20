@@ -14,7 +14,7 @@ applications:
         postBuild:
           commands:
             # package.json에서 버전 가져오기
-            - export VERSION=$(node -p -e "require('./package.json').version")
+            - export VERSION=$(node -p -e "require('./apps/js-sdk/package.json').version")
             # 버전별로 S3 버킷에 업로드
             - aws s3 cp ./dist/ s3://sdk.web.klleon.io/$VERSION/ --recursive
             # latest 폴더에도 동일하게 업로드
