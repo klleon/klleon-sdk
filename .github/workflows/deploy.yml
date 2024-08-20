@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - main # main 브랜치에 push될 때 트리거됩니다.
+      - prod/js-sdk # prod/js-sdk 브랜치에 push될 때 트리거됩니다.
 
 jobs:
   build-and-deploy:
@@ -20,9 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        working-directory: apps/js-sdk
 
       - name: Build project
         run: yarn build:prod
+        working-directory: apps/js-sdk
 
       - name: Sync files to S3
         env:
@@ -30,7 +32,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-northeast-2"
           S3_BUCKET: "sdk.web.klleon.io"
-          VERSION: $(node -p -e "require('./package.json').version")
+          VERSION: $(node -p -e "require('./apps/js-sdk/package.json').version")
         run: |
-          aws s3 sync ./dist/ s3://$S3_BUCKET/js-sdk/$VERSION/ --delete --acl public-read
-          aws s3 sync ./dist/ s3://$S3_BUCKET/js-sdk/latest/ --delete --acl public-read
+          aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/js-sdk/$VERSION/ --delete --acl public-read
+          aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/js-sdk/latest/ --delete --acl public-read
