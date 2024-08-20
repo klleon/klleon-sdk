@@ -1,6 +1,5 @@
 import './style.css'
 
-
 const main = () => {
   document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div id="video" class="video"></div>
