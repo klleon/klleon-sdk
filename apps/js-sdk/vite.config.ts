@@ -17,9 +17,9 @@ export default defineConfig({
       output: {
         format: 'es',
         name: 'js-sdk',
-        globals: {
-          'agora-rtc-sdk-ng': 'AgoraRTC',
-        }
+        // globals: {
+        //   'agora-rtc-sdk-ng': 'AgoraRTC',
+        // }
       }
     }
   }
