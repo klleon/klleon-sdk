@@ -10,13 +10,13 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: 'js-sdk',
+      name: 'KlleonSDK',
       formats: ['es', 'cjs', 'umd']
     },
     rollupOptions: {
       output: {
         format: 'es',
-        name: 'js-sdk',
+        name: 'KlleonSDK',
         // globals: {
         //   'agora-rtc-sdk-ng': 'AgoraRTC',
         // }
