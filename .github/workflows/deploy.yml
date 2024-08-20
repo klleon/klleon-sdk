@@ -26,13 +26,18 @@ jobs:
         run: yarn build:prod
         working-directory: apps/js-sdk
 
+      - name: Set VERSION environment variable
+        id: get_version
+        working-directory: apps/js-sdk
+        run: echo "VERSION=$(node -p -e \"require('./package.json').version\")" >> $GITHUB_ENV
+
       - name: Sync files to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-northeast-2"
           S3_BUCKET: "sdk.web.klleon.io"
-          VERSION: $(node -p -e "require('./apps/js-sdk/package.json').version")
+          VERSION: ${{ env.VERSION }}
         run: |
           aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/js-sdk/$VERSION/ --delete --acl public-read
           aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/js-sdk/latest/ --delete --acl public-read
