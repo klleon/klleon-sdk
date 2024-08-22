@@ -1,4 +1,4 @@
-import AgoraRTC, { ILocalAudioTrack, IMicrophoneAudioTrack, IAgoraRTCRemoteUser } from 'agora-rtc-sdk-ng';
+import AgoraRTC, { ILocalAudioTrack, IMicrophoneAudioTrack } from 'agora-rtc-sdk-ng';
 
 const agora = () => {
   const rtc = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
@@ -218,7 +218,7 @@ const agora = () => {
       }
     })
 
-    sendEchoButton.addEventListener('mouseup', (event) => {
+    sendEchoButton.addEventListener('mouseup', () => {
       if (socket.readyState === WebSocket.OPEN) {
         const stopEchoMessageObject = {
           type: 'SYSTEM',
