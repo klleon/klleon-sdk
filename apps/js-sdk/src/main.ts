@@ -1,5 +1,3 @@
-import agora from './agora';
-
 const main = () => {
   document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div id="video" class="kl-size-[300px]"></div>
@@ -21,13 +19,8 @@ const main = () => {
            <button id="sendVoiceEchoButton" class="send-button">Send Echo</button>
         </div>
       </div>
-      
-      
     </div>
   `;
 };
-
-agora();
-main();
 
 export default main;
