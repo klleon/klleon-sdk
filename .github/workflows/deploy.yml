@@ -37,7 +37,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "ap-northeast-2"
-          S3_BUCKET: "sdk.web.klleon.io"
+          S3_BUCKET: "web.sdk.klleon.io"
         run: |
-          aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/js-sdk/$VERSION/ --delete --acl public-read
-          aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/js-sdk/latest/ --delete --acl public-read
+          aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/$VERSION/ --delete --acl public-read
+          aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/latest/ --delete --acl public-read
