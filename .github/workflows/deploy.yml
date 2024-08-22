@@ -43,9 +43,4 @@ jobs:
           aws s3 sync ./apps/js-sdk/dist/ s3://$S3_BUCKET/latest/ --delete --acl public-read
 
       - name: Invalidate CloudFront Cache
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_CLOUDE_FRONT_ID: ${{ secrets.AWS_CLOUDE_FRONT_ID }}
-        run: |
-          aws cloudfront create-invalidation --distribution-id $AWS_CLOUDE_FRONT_ID --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUD_FRONT_ID }} --paths "/*"
