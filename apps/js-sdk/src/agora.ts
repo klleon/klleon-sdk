@@ -101,13 +101,14 @@ const agora = () => {
   async function stopRecordingAndSendAudio() {
     if (mediaRecorder) {
       mediaRecorder.addEventListener('stop', async () => {
-        const audioBlob = new Blob(audioChunks);
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' }); // MIME 타입 명시
         const reader = new FileReader();
 
         reader.readAsDataURL(audioBlob);
         reader.onloadend = () => {
           const base64String = reader.result as string;
           const audioBase64 = base64String.split(',')[1]; // base64 인코딩된 오디오 데이터만 가져옴
+          console.log(audioBase64)
 
           // base64 오디오 데이터의 크기 계산 (1 byte = 8 bit, base64는 6 bit씩 표현하므로 4/3 비율)
           const audioSizeInBytes = (audioBase64.length * 3) / 4;
@@ -144,8 +145,6 @@ const agora = () => {
       mediaRecorder.stop();
     }
   }
-
-
 
 
 
