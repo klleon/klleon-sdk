@@ -14,6 +14,5 @@ export default defineConfig({
       formats: ['umd'],
       fileName: (format) => `klleon-sdk.${format}.js`,
     },
-    cssCodeSplit: false,
   }
 })
