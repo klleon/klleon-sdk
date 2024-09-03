@@ -1,10 +1,5 @@
-import agora from './agora'
-import main from './main'
-import './style.css'
+import { Chat } from './ui/chat'
+import { Avatar } from './ui/avatar'
+import useSdk from './core/sdk'
 
-const KlleonSDK = {
-  main,
-  agora
-}
-
-export default KlleonSDK
+export { Chat, Avatar, useSdk }

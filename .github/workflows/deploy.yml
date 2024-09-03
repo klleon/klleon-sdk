@@ -49,4 +49,4 @@ jobs:
           AWS_REGION: "ap-northeast-2"
           AWS_CLOUD_FRONT_ID: ${{ secrets.AWS_CLOUD_FRONT_ID }}
         run: |
-          aws cloudfront create-invalidation --distribution-id $AWS_CLOUD_FRONT_ID --paths "/*" --debug
+          aws cloudfront create-invalidation --distribution-id $AWS_CLOUD_FRONT_ID --paths "/*"

@@ -11,18 +11,9 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       name: 'KlleonSDK',
-      formats: ['es', 'cjs', 'umd'],
+      formats: ['umd'],
       fileName: (format) => `klleon-sdk.${format}.js`,
     },
     cssCodeSplit: false,
-    // rollupOptions: {
-    //   output: {
-    //     format: 'es',
-    //     name: 'KlleonSDK',
-    //     // globals: {
-    //     //   'agora-rtc-sdk-ng': 'AgoraRTC',
-    //     // }
-    //   }
-    // }
   }
 })
