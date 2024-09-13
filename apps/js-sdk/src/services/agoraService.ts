@@ -11,7 +11,7 @@ const rtc = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' })
 let localAudioTrack: ILocalAudioTrack | IMicrophoneAudioTrack | null = null;
 
 
-export const joinAgora = async (config: AgoraConfig) => {
+export const joinAgora = async (config: AgoraConfig, fit?: 'cover' | 'contain' | 'fill') => {
   localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
   await rtc.join(import.meta.env.VITE_AGORA_KEY, config.channel, config.token, config.uid);
   await rtc.publish([localAudioTrack]);
@@ -19,8 +19,9 @@ export const joinAgora = async (config: AgoraConfig) => {
   rtc.on('user-published', async (user, mediaType) => {
     await rtc.subscribe(user, mediaType)
     if (mediaType === 'video') {
+      console.log(document.querySelector("#avatar")?.getAttribute('class'))
       const remoteVideoTrack = user.videoTrack;
-      remoteVideoTrack?.play('video');
+      remoteVideoTrack?.play('avatar', { fit });
     }
 
     if (mediaType === 'audio') {

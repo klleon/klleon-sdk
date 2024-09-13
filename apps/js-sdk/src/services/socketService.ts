@@ -1,5 +1,5 @@
 import { ResponseChatType, InitChatData, SendMessage, RequestChatType, ChatData } from "../constants/klleonSDK";
-import useSdk from "../core/sdk";
+import { state } from "../core/sdk";
 
 
 let socket: WebSocket | null = null;
@@ -7,10 +7,10 @@ let socket: WebSocket | null = null;
 
 export const sendMessage = (messageObject: SendMessage): void => {
   if (socket && socket.readyState === WebSocket.OPEN) {
-    const { state } = useSdk()
+    const { messageList } = state
     socket.send(JSON.stringify(messageObject));
     if (Object.values(RequestChatType).includes(messageObject.type) && messageObject.type !== RequestChatType.PONG && messageObject.message.length > 0) {
-      state.messageList.push({ type: "request", message: messageObject.message })
+      messageList.push({ type: "request", message: messageObject.message })
     }
   }
 };
@@ -27,7 +27,7 @@ export const joinWebSocket = (options: any): Promise<InitChatData> => {
     })
 
     socket?.addEventListener('message', async (event) => {
-      const { state } = useSdk()
+      const { messageList } = state
 
       const initData: InitChatData = JSON.parse(event.data)
       const chatData: ChatData = JSON.parse(event.data)
@@ -43,7 +43,7 @@ export const joinWebSocket = (options: any): Promise<InitChatData> => {
 
 
       if ((chatData.chat_type === ResponseChatType['STT_RESULT'] || chatData.chat_type === ResponseChatType['TEXT']) && chatData.message.length > 0) {
-        state.messageList.push({ type: "response", message: chatData.message })
+        messageList.push({ type: "response", message: chatData.message })
       }
 
 

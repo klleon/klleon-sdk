@@ -1,35 +1,31 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, css, html, unsafeCSS } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import useSdk from '../core/sdk';
 import { subscribe } from 'valtio';
+import { state } from '../core/sdk';
+// eslint-disable-next-line import/no-unresolved
+import tailwind from '../style.css?inline'
 
 @customElement('avatar-container')
 export class Avatar extends LitElement {
-  static styles = css`
-    #video {
-      width: 300px;
-      height: 300px;
-    }
-  `;
+  static styles = css`${unsafeCSS(tailwind)}`
 
   constructor() {
     super()
-    const { state } = useSdk()
     subscribe(state, () => {
       this.requestUpdate()
     })
   }
 
   createRenderRoot() {
-    return this;
+    return this
   }
 
   render() {
-    const { state } = useSdk()
-    if (!state.isInitialize) return html``
+    const { isInitialize } = state
+    if (!isInitialize) return html``
 
     return html`
-      <div id="video" class="kl-size-[300px]">
+      <div id="avatar" class="flex flex-1">
       </div>
     `
   }
