@@ -1,13 +1,13 @@
 export type LocaleType = 'ko_kr' | 'en_us' | 'ja_jp'
-export type LogLevelType = 'none' | 'debug' | 'info' | 'error'
+export type LogLevelType = 'debug' | 'info' | 'warning' | 'error' | 'none'
 export type VoiceCodeType = 'ko_kr' | 'en_us' | 'ja_jp' | 'id_id'
 export type SubtitleCodeType = 'ko_kr' | 'en_us' | 'ja_jp' | 'id_id'
 
 export interface InitOption {
   sdk_key: string;
+  avatar_id: string;
   locale?: LocaleType
   log_level?: LogLevelType
-  div_id?: string
 }
 
 export interface StreamingOption {
@@ -60,7 +60,8 @@ export enum RequestChatType {
   PONG = 'PONG',
   USER = 'USER',
   SYSTEM = 'SYSTEM',
-  ECHO = 'ECHO'
+  ECHO = 'ECHO',
+  AUDIO = 'AUDIO'
 }
 
 
