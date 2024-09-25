@@ -1,5 +1,5 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
-import { state } from "../core/sdk";
+import { State, state } from "../core/sdk";
 import { subscribe } from "valtio";
 import { customElement, query } from 'lit/decorators.js';
 import { sendMessage } from "../services/socketService";
@@ -7,6 +7,8 @@ import { RequestChatType } from "../constants/klleonSDK";
 import Typed from "typed.js";
 // eslint-disable-next-line import/no-unresolved
 import tailwind from '../style.css?inline'
+import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
+
 
 @customElement('chat-container')
 export class Chat extends LitElement {
@@ -18,10 +20,6 @@ export class Chat extends LitElement {
       this.requestUpdate()
     })
   }
-
-  // createRenderRoot() {
-  //   return this
-  // }
 
   @query('#msg-input')
   private inputElement!: HTMLInputElement
@@ -40,6 +38,13 @@ export class Chat extends LitElement {
     },
     toggleType: (type: 'text' | 'voice') => {
       state.type = type
+    },
+    renderMessage: (messageList: State['messageList']) => {
+      return virtualize({
+        items: messageList.map((msg) => msg.message),
+        renderItem: (msg) => html`<span>${msg}</span>`,
+        scroller: true,
+      })
     }
   }
 
@@ -51,7 +56,7 @@ export class Chat extends LitElement {
     });
   }
   updated() {
-    const lastMsgElement = this.querySelector('.msg:last-child span');
+    const lastMsgElement = this.shadowRoot?.querySelector('.msg:last-child span');
     const lastMessageIndex = state.messageList.length - 1;
     const lastMessage = state.messageList[lastMessageIndex]?.message;
 
@@ -64,14 +69,11 @@ export class Chat extends LitElement {
     const { isInitialize, messageList } = state
     if (!isInitialize) return html``
 
+
     return html`
       <div class="flex flex-col flex-1 w-[324px]">
         <div class="flex flex-col flex-1 overflow-auto">
-          ${messageList.map((_, index) => html`
-              <div id="msg-${index}" class="msg">
-                <span></span>
-              </div>
-            `)}
+          ${this.chatHandler.renderMessage(messageList)}
         </div>
         <div class="flex">
           ${state.type === 'text' && html`

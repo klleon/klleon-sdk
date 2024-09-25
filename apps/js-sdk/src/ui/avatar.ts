@@ -17,15 +17,28 @@ export class Avatar extends LitElement {
   }
 
   createRenderRoot() {
-    return this
+    return this.attachShadow({ mode: 'open' })
+  }
+
+  getAvatarElement() {
+    return this.shadowRoot?.getElementById('avatar');
   }
 
   render() {
     const { isInitialize } = state
     if (!isInitialize) return html``
+    const additionalClasses = this.getAttribute('class') || '';
+    const additionalStyles = this.getAttribute('style') || '';
+    const addVideoClasses = this.getAttribute('videoClass') || '';
 
     return html`
-      <div id="avatar" class="flex flex-1">
+      <style>
+        ${unsafeCSS(tailwind)}
+        :host {
+          display: contents
+        }
+      </style>
+      <div id="avatar" class="size-full ${additionalClasses}" style="${additionalStyles}" videoClass="${addVideoClasses}">
       </div>
     `
   }

@@ -15,10 +15,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lit-labs/virtualizer": "^2.0.14",
     "agora-rtc-sdk-ng": "^4.21.0",
     "axios": "^1.7.5",
     "lit": "^3.2.0",
     "lit-html": "^3.2.0",
+    "prettier-plugin-embed": "^0.4.15",
     "typed.js": "^2.1.0",
     "valtio": "^2.0.0"
   },

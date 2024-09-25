@@ -1,4 +1,5 @@
 import AgoraRTC, { ILocalAudioTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng"
+import { Avatar } from "../ui/avatar";
 
 export type AgoraConfig = {
   channel: string;
@@ -19,9 +20,20 @@ export const joinAgora = async (config: AgoraConfig, fit?: 'cover' | 'contain' |
   rtc.on('user-published', async (user, mediaType) => {
     await rtc.subscribe(user, mediaType)
     if (mediaType === 'video') {
-      console.log(document.querySelector("#avatar")?.getAttribute('class'))
       const remoteVideoTrack = user.videoTrack;
-      remoteVideoTrack?.play('avatar', { fit });
+      const avatarContainer = document.querySelector('avatar-container') as Avatar;
+      const avatarElement = avatarContainer.getAvatarElement();
+
+      if (!avatarContainer || !avatarElement) return
+
+      remoteVideoTrack?.play(avatarElement, { fit });
+
+      const videoElement = avatarElement.querySelector('video');
+      const videoClasses = avatarElement.getAttribute('videoClass') || '';
+      const containerElement = avatarElement.querySelector('div');
+
+      videoElement?.classList.add(videoClasses)
+      containerElement?.style.removeProperty('background-color')
     }
 
     if (mediaType === 'audio') {
