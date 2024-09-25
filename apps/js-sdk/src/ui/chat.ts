@@ -76,17 +76,25 @@ export class Chat extends LitElement {
           ${this.chatHandler.renderMessage(messageList)}
         </div>
         <div class="flex">
-          ${state.type === 'text' && html`
+          ${state.type === 'text' ? html`
             <input id="msg-input" />
             <div class="flex gap-x-1">
               <button @click="${this.chatHandler.handleSend}">send</button>
               <button @click="${() => this.chatHandler.toggleType('voice')}">toogle</button>
             </div>
-          `}
-          ${state.type === 'voice' && html`
-            <button @keydown="${this.chatHandler.sendVoice}" @keyup="${this.chatHandler.endVoice}">send Voice</button>
+          ` : html``}
+          ${state.type === 'voice' ? html`
+            <button 
+              @mousedown="${this.chatHandler.sendVoice}" 
+              @mouseup="${this.chatHandler.endVoice}"
+              @touchstart="${this.chatHandler.sendVoice}"
+              @touchend="${this.chatHandler.endVoice}"
+            >
+              send Voice
+            </button>
+            
             <button @click="${() => this.chatHandler.toggleType('text')}">toogle</button>
-          `}
+          ` : html``}
         </div>
       </div>
     `

@@ -8,6 +8,7 @@ export interface InitOption {
   avatar_id: string;
   locale?: LocaleType
   log_level?: LogLevelType
+  enable_microphone?: boolean
 }
 
 export interface StreamingOption {
