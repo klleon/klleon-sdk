@@ -29,7 +29,7 @@ export const state = proxy<State>({
 let chatEventListener: ((event: Event) => void) | null = null;
 
 
-const sdkHandler = {
+export const sdkHandler = {
   init: async (option: any) => {
     const { sdk_key, avatar_id, locale = 'ko_kr' } = option
     await checkPermissions()
@@ -74,4 +74,3 @@ const sdkHandler = {
 
 
 
-export default sdkHandler
