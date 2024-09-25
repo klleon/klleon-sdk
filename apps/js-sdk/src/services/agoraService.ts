@@ -6,6 +6,7 @@ export type AgoraConfig = {
   channel: string;
   token: string;
   uid: string;
+  enable_microphone: boolean
 };
 
 
@@ -14,9 +15,16 @@ let localAudioTrack: ILocalAudioTrack | IMicrophoneAudioTrack | null = null;
 
 
 export const joinAgora = async (config: AgoraConfig, fit?: 'cover' | 'contain' | 'fill') => {
-  localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+  if (!config.enable_microphone) {
+    console.warn('실시간 음성인식을 위해 마이크를 활성화해주세요.')
+  }
+  if (config.enable_microphone) {
+    localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+  }
   await rtc.join(import.meta.env.VITE_AGORA_KEY, config.channel, config.token, config.uid);
-  await rtc.publish([localAudioTrack]);
+  if (localAudioTrack) {
+    await rtc.publish([localAudioTrack]);
+  }
 
   rtc.on('user-published', async (user, mediaType) => {
     await rtc.subscribe(user, mediaType)

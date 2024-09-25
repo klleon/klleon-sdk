@@ -9,7 +9,7 @@ export const sendMessage = (messageObject: SendMessage): void => {
   if (socket && socket.readyState === WebSocket.OPEN) {
     const { messageList } = state
     socket.send(JSON.stringify(messageObject));
-    if (Object.values(RequestChatType).includes(messageObject.type) && messageObject.type !== RequestChatType.PONG && messageObject.message.length > 0) {
+    if (Object.values(RequestChatType).includes(messageObject.type) && messageObject.type !== RequestChatType.PONG && messageObject.type !== RequestChatType.SYSTEM && messageObject.message.length > 0) {
       messageList.push({ type: "request", message: messageObject.message })
     }
   }

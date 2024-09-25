@@ -1,26 +1,25 @@
 export const checkPermissions = async () => {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     stream.getTracks().forEach(track => track.stop());
   } catch (err) {
     if (err instanceof DOMException) {
       switch (err.name) {
         case 'NotAllowedError':
         case 'PermissionDeniedError':
-          throw new Error('권한이 거부되었습니다: 카메라 또는 마이크');
-
+          console.error('권한이 거부되었습니다: 마이크');
+          break;
         case 'NotFoundError':
         case 'DevicesNotFoundError':
-          throw new Error('요청된 장치를 찾을 수 없습니다: 카메라 또는 마이크');
-
+          console.error('요청된 장치를 찾을 수 없습니다: 카메라 또는 마이크');
+          break;
         case 'NotReadableError':
         case 'TrackStartError':
-          throw new Error('장치에 접근할 수 없습니다: 카메라 또는 마이크');
-
+          console.error('장치에 접근할 수 없습니다: 마이크');
+          break;
         default:
-          throw new Error(`알 수 없는 에러: ${err.name}`);
+          console.error(`알 수 없는 에러: ${err.name}`);
       }
     }
-    throw new Error('알 수 없는 오류 발생');
   }
 }

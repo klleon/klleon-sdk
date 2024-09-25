@@ -31,7 +31,7 @@ export const state = proxy<State>({
 let chatEventListener: ((event: Event) => void) | null = null;
 
 export const init = async (option: InitOption) => {
-  const { sdk_key, avatar_id, locale = 'ko_kr', log_level } = option
+  const { sdk_key, avatar_id, locale = 'ko_kr', log_level, enable_microphone = true } = option
   await checkPermissions()
   await api.get('/v1/chat/connection-status', {
     headers: {
@@ -69,7 +69,7 @@ export const init = async (option: InitOption) => {
   }
 
   const { access_token, channel, uid } = await joinWebSocket({ sdk_key, avatar_id, locale })
-  await joinAgora({ channel, token: access_token, uid })
+  await joinAgora({ channel, token: access_token, uid, enable_microphone })
   state.isInitialize = true
 }
 

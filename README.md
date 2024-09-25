@@ -13,14 +13,14 @@
   </head>
   <body>
     <script>
-      const { init, onChatEvent } = window.KlleonSDK.sdkHandler;
+      const { KlleonSDK } = window
 
-      await init({
+      await KlleonSDK.init({
         sdk_key: "sdk_key",
         avatar_id: "avatar_id",
         locale: "ko_kr",
       });
-      onChatEvent((data) => {
+      KlleonSDK.onChatEvent((data) => {
         console.log(data);
       });
     </script>
