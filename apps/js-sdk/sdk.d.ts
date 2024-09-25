@@ -5,9 +5,9 @@ export type SubtitleCodeType = 'ko_kr' | 'en_us' | 'ja_jp' | 'id_id'
 
 export interface InitOption {
   sdk_key: string;
+  avatar_id: string;
   locale?: LocaleType
   log_level?: LogLevelType
-  div_id?: string
 }
 
 export interface StreamingOption {
