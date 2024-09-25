@@ -11,7 +11,11 @@
     <script type="module" src="./src/main.ts"></script>
   </head>
   <body>
-    <avatar-container></avatar-container>
-    <chat-container></chat-container>
+    <div class="flex size-[600px]">
+      <div class="flex flex-1">
+        <avatar-container videoClass="rounded-3xl" />
+      </div>
+      <chat-container class="flex flex-1"> </chat-container>
+    </div>
   </body>
 </html>
