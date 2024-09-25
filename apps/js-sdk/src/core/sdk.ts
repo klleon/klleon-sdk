@@ -4,6 +4,7 @@ import { ChatData, InitOption, LogLevelType, RequestChatType } from "../constant
 import { checkPermissions } from "../utils/device";
 import { joinWebSocket, leaveWebSocket, sendMessage } from "../services/socketService";
 import { joinAgora, leaveAgora } from "../services/agoraService";
+import AgoraRTC from "agora-rtc-sdk-ng";
 
 export interface State {
   isInitialize: boolean;
@@ -30,7 +31,7 @@ export const state = proxy<State>({
 let chatEventListener: ((event: Event) => void) | null = null;
 
 export const init = async (option: InitOption) => {
-  const { sdk_key, avatar_id, locale = 'ko_kr', log_level = 'info' } = option
+  const { sdk_key, avatar_id, locale = 'ko_kr', log_level } = option
   await checkPermissions()
   await api.get('/v1/chat/connection-status', {
     headers: {
@@ -40,10 +41,33 @@ export const init = async (option: InitOption) => {
   }).catch((error) => {
     throw new Error(error)
   })
+
   state.avatar_id = avatar_id
   state.sdk_key = sdk_key
   state.locale = locale
   state.log_level = log_level
+
+  switch (state.log_level) {
+    case 'debug':
+      AgoraRTC.setLogLevel(0)
+      break;
+    case 'info':
+      AgoraRTC.setLogLevel(1)
+      break;
+    case 'warning':
+      AgoraRTC.setLogLevel(2)
+      break;
+    case 'error':
+      AgoraRTC.setLogLevel(3)
+      break;
+    case 'none':
+      AgoraRTC.setLogLevel(4)
+      break;
+    default:
+      AgoraRTC.setLogLevel(1)
+      break;
+  }
+
   const { access_token, channel, uid } = await joinWebSocket({ sdk_key, avatar_id, locale })
   await joinAgora({ channel, token: access_token, uid })
   state.isInitialize = true

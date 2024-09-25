@@ -1,6 +1,5 @@
 import AgoraRTC, { ILocalAudioTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng"
 import { Avatar } from "../ui/avatar";
-import { state } from "../core/sdk";
 
 
 export type AgoraConfig = {
@@ -9,27 +8,6 @@ export type AgoraConfig = {
   uid: string;
 };
 
-
-switch (state.log_level) {
-  case 'debug':
-    AgoraRTC.setLogLevel(0)
-    break;
-  case 'info':
-    AgoraRTC.setLogLevel(1)
-    break;
-  case 'warning':
-    AgoraRTC.setLogLevel(2)
-    break;
-  case 'error':
-    AgoraRTC.setLogLevel(3)
-    break;
-  case 'none':
-    AgoraRTC.setLogLevel(4)
-    break;
-  default:
-    AgoraRTC.setLogLevel(1)
-    break;
-}
 
 const rtc = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' })
 let localAudioTrack: ILocalAudioTrack | IMicrophoneAudioTrack | null = null;
