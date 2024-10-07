@@ -21,7 +21,6 @@
     "lit": "^3.2.0",
     "lit-html": "^3.2.0",
     "prettier-plugin-embed": "^0.4.15",
-    "typed.js": "^2.1.0",
     "valtio": "^2.0.0"
   },
   "devDependencies": {

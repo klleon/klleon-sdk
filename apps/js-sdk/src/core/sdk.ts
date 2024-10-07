@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 import { api } from "../api";
-import { ChatData, InitOption, LogLevelType, RequestChatType } from "../constants/klleonSDK";
+import { ChatData, InitOption, LogLevelType, RequestChatType, ResponseChatType } from "../constants/klleonSDK";
 import { checkPermissions } from "../utils/device";
 import { joinWebSocket, leaveWebSocket, sendMessage } from "../services/socketService";
 import { joinAgora, leaveAgora } from "../services/agoraService";
@@ -17,6 +17,7 @@ export interface State {
   locale?: string
   log_level?: LogLevelType
   type: 'text' | 'voice'
+  chat_type?: ResponseChatType
 }
 
 export const state = proxy<State>({
@@ -25,7 +26,8 @@ export const state = proxy<State>({
   sdk_key: '',
   avatar_id: '',
   locale: undefined,
-  type: 'text'
+  type: 'text',
+  chat_type: undefined
 })
 
 let chatEventListener: ((event: Event) => void) | null = null;

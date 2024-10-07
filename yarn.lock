@@ -3974,7 +3974,6 @@ __metadata:
     prettier-plugin-embed: "npm:^0.4.15"
     rollup-plugin-lit-css: "npm:^5.0.0"
     tailwindcss: "npm:^3.4.10"
-    typed.js: "npm:^2.1.0"
     typescript: "npm:^5.5.3"
     valtio: "npm:^2.0.0"
     vite: "npm:^5.4.0"
@@ -6201,13 +6200,6 @@ __metadata:
     is-typed-array: "npm:^1.1.13"
     possible-typed-array-names: "npm:^1.0.0"
   checksum: 10c0/74253d7dc488eb28b6b2711cf31f5a9dcefc9c41b0681fd1c178ed0a1681b4468581a3626d39cd4df7aee3d3927ab62be06aa9ca74e5baf81827f61641445b77
-  languageName: node
-  linkType: hard
-
-"typed.js@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "typed.js@npm:2.1.0"
-  checksum: 10c0/a85339064b0d96d01622ea4729436a36172aa0b634cf8e07c1735a5dd50bb35e92b97db412c307fa3364dc2c106efbf9ab7a0bd47a5268f5f7034b4a5effdab2
   languageName: node
   linkType: hard
 

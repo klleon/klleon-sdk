@@ -3,16 +3,36 @@ import { State, state } from "../core/sdk";
 import { subscribe } from "valtio";
 import { customElement, query } from 'lit/decorators.js';
 import { sendMessage } from "../services/socketService";
-import { RequestChatType } from "../constants/klleonSDK";
-import Typed from "typed.js";
+import { RequestChatType, ResponseChatType } from "../constants/klleonSDK";
 // eslint-disable-next-line import/no-unresolved
 import tailwind from '../style.css?inline'
-import { virtualize } from '@lit-labs/virtualizer/virtualize.js';
+import { virtualize } from "@lit-labs/virtualizer/virtualize.js";
 
 
 @customElement('chat-container')
 export class Chat extends LitElement {
-  static styles = css`${unsafeCSS(tailwind)}`
+  static styles = css`
+    ${unsafeCSS(tailwind)}
+    .typing {
+      display: inline-block;
+      white-space: normal; 
+      overflow-wrap: break-word;
+    }
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.2s forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  `
+
+  private previousMessageCount = 0;
 
   constructor() {
     super()
@@ -23,6 +43,8 @@ export class Chat extends LitElement {
 
   @query('#msg-input')
   private inputElement!: HTMLInputElement
+  @query('.msg-container')
+  private msgContainer!: HTMLElement
 
   private chatHandler = {
     handleSend: () => {
@@ -42,27 +64,62 @@ export class Chat extends LitElement {
     renderMessage: (messageList: State['messageList']) => {
       return virtualize({
         items: messageList.map((msg) => msg.message),
-        renderItem: (msg) => html`<span>${msg}</span>`,
+        renderItem: (_, index: number) => {
+          return this.renderTypingEffect(index)
+        },
         scroller: true,
-      })
+      });
+    },
+    scrollToBottom: () => {
+      if (!this.msgContainer) return
+      this.msgContainer.scrollTop = this.msgContainer.scrollHeight
+    },
+    isDisabled: () => {
+      if (!state.chat_type || state.chat_type === ResponseChatType['ACTIVATE_VOICE']) return false
+      return state.chat_type !== ResponseChatType['RESPONSE_IS_ENDED'];
     }
   }
 
-  private addTypingEffect(element: Element, message: string) {
-    new Typed(element, {
-      strings: [message],
-      typeSpeed: 28,
-      showCursor: false,
-    });
+
+  private typeText(element: Element, text: string, delay: number = 50) {
+    let index = 0;
+
+    const type = () => {
+      if (index < text.length) {
+        element.textContent += text.charAt(index);
+        element.classList.add('fade-in')
+        index++;
+        this.chatHandler.scrollToBottom();
+        setTimeout(() => requestAnimationFrame(type), delay);
+      }
+    };
+
+    type();
   }
+
+  private renderTypingEffect(index: number) {
+    const elementId = `msg-${index}`;
+    return html`
+      <div class="typing" id="${elementId}"></div>
+    `;
+  }
+
   updated() {
-    const lastMsgElement = this.shadowRoot?.querySelector('.msg:last-child span');
-    const lastMessageIndex = state.messageList.length - 1;
-    const lastMessage = state.messageList[lastMessageIndex]?.message;
+    requestAnimationFrame(() => {
+      const messageList = state.messageList;
 
-    if (lastMsgElement) {
-      this.addTypingEffect(lastMsgElement, lastMessage);
-    }
+      if (messageList.length > this.previousMessageCount) {
+        const lastMessageIndex = messageList.length - 1;
+        const lastMessageElement = this.shadowRoot?.querySelector(`#msg-${lastMessageIndex}`);
+
+        if (lastMessageElement) {
+          lastMessageElement.textContent = "";
+          this.typeText(lastMessageElement, messageList[lastMessageIndex].message, 100);
+        }
+      }
+
+      this.previousMessageCount = messageList.length;
+    })
   }
 
   render() {
@@ -72,14 +129,19 @@ export class Chat extends LitElement {
 
     return html`
       <div class="flex flex-col flex-1 w-[324px]">
-        <div class="flex flex-col flex-1 overflow-auto">
+        <div class="flex flex-col flex-1 overflow-auto msg-container">
           ${this.chatHandler.renderMessage(messageList)}
         </div>
         <div class="flex">
           ${state.type === 'text' ? html`
             <input id="msg-input" />
             <div class="flex gap-x-1">
-              <button @click="${this.chatHandler.handleSend}">send</button>
+              <button 
+                ?disabled=${this.chatHandler.isDisabled()} 
+                @click="${this.chatHandler.handleSend}"
+              >
+                send
+              </button>
               <button @click="${() => this.chatHandler.toggleType('voice')}">toogle</button>
             </div>
           ` : html``}

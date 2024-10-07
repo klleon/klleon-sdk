@@ -2,7 +2,7 @@ import { ResponseChatType, InitChatData, SendMessage, RequestChatType, ChatData 
 import { state } from "../core/sdk";
 
 
-let socket: WebSocket | null = null;
+export let socket: WebSocket | null = null;
 
 
 export const sendMessage = (messageObject: SendMessage): void => {
@@ -45,6 +45,8 @@ export const joinWebSocket = (options: any): Promise<InitChatData> => {
       if ((chatData.chat_type === ResponseChatType['STT_RESULT'] || chatData.chat_type === ResponseChatType['TEXT']) && chatData.message.length > 0) {
         messageList.push({ type: "response", message: chatData.message })
       }
+
+      state.chat_type = chatData.chat_type
 
 
       const customEvent = new CustomEvent('klleon-sdk', { detail: chatData as ChatData })
