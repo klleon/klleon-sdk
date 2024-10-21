@@ -1,18 +1,51 @@
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement } from "lit";
 import { State, state } from "../core/sdk";
 import { subscribe } from "valtio";
-import { customElement, query } from 'lit/decorators.js';
+import { customElement, query, state as litState } from 'lit/decorators.js';
 import { sendMessage } from "../services/socketService";
 import { RequestChatType, ResponseChatType } from "../constants/klleonSDK";
-// eslint-disable-next-line import/no-unresolved
-import tailwind from '../style.css?inline'
 import { virtualize } from "@lit-labs/virtualizer/virtualize.js";
+import { styles } from '../styles/style'
+import '../components/TextField/TextField'
 
 
 @customElement('chat-container')
 export class Chat extends LitElement {
   static styles = css`
-    ${unsafeCSS(tailwind)}
+    ${styles}
+    .request {
+      right: 0;
+      padding: 8px 16px;
+      border-radius: 18px 18px 18px 0px;
+      background: #0C5EF0;
+      color: white;
+
+      font-family: Pretendard;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+    }
+    .response {
+      left: 0;
+      padding: 8px 16px;
+      border-radius: 18px 18px 18px 0px;
+      background: #EDEFFA;
+
+      font-family: Pretendard;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+    }
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      background: #B6BCDE;
+      padding: 16px;
+      border-radius: inherit;
+    }
     .typing {
       display: inline-block;
       white-space: normal; 
@@ -41,16 +74,24 @@ export class Chat extends LitElement {
     })
   }
 
-  @query('#msg-input')
-  private inputElement!: HTMLInputElement
+  @litState()
+  private msg = ''
+
   @query('.msg-container')
   private msgContainer!: HTMLElement
 
   private chatHandler = {
+    handleOnChange: (event: CustomEvent<{ e: Event }>) => {
+      const { e } = event.detail
+      const { value } = e.target as HTMLInputElement
+      this.msg = value
+    },
     handleSend: () => {
-      const message = this.inputElement.value.trim()
+      const message = this.msg.trim()
+      if (message === "") return;
+
       sendMessage({ type: RequestChatType['USER'], message })
-      this.inputElement.value = ""
+      this.msg = ""
     },
     sendVoice: () => {
       sendMessage({ type: RequestChatType['SYSTEM'], message: 'START_VOICE' })
@@ -81,26 +122,25 @@ export class Chat extends LitElement {
   }
 
 
-  private typeText(element: Element, text: string, delay: number = 50) {
+  private typeText({ element, text, type, delay = 30 }: { element: Element, text: string, type: 'response' | 'request', delay: number }) {
     let index = 0;
-
-    const type = () => {
+    const typography = () => {
       if (index < text.length) {
         element.textContent += text.charAt(index);
-        element.classList.add('fade-in')
+        element.classList.add('fade-in', `${type}`)
         index++;
         this.chatHandler.scrollToBottom();
-        setTimeout(() => requestAnimationFrame(type), delay);
+        setTimeout(() => requestAnimationFrame(typography), delay);
       }
     };
 
-    type();
+    typography();
   }
 
   private renderTypingEffect(index: number) {
     const elementId = `msg-${index}`;
     return html`
-      <div class="typing" id="${elementId}"></div>
+      <div id="${elementId}" class="typing mb-3"></div>
     `;
   }
 
@@ -114,7 +154,12 @@ export class Chat extends LitElement {
 
         if (lastMessageElement) {
           lastMessageElement.textContent = "";
-          this.typeText(lastMessageElement, messageList[lastMessageIndex].message, 100);
+          this.typeText({
+            element: lastMessageElement,
+            text: messageList[lastMessageIndex].message,
+            type: messageList[lastMessageIndex].type,
+            delay: 30
+          });
         }
       }
 
@@ -128,23 +173,24 @@ export class Chat extends LitElement {
 
 
     return html`
-      <div class="flex flex-col flex-1 w-[324px]">
+      <div class="chat-container">
         <div class="flex flex-col flex-1 overflow-auto msg-container">
           ${this.chatHandler.renderMessage(messageList)}
         </div>
         <div class="flex">
           ${state.type === 'text' ? html`
-            <input id="msg-input" />
-            <div class="flex gap-x-1">
-              <button 
-                ?disabled=${this.chatHandler.isDisabled()} 
-                @click="${this.chatHandler.handleSend}"
-              >
-                send
-              </button>
-              <button @click="${() => this.chatHandler.toggleType('voice')}">toogle</button>
-            </div>
-          ` : html``}
+            <div class="flex flex-1 gap-x-1" >
+              <text-field
+                .disabled=${this.chatHandler.isDisabled()}
+                value=${this.msg}
+                placeholder="내용을 입력해 주세요"
+                @onChange=${this.chatHandler.handleOnChange}
+                @onSend=${this.chatHandler.handleSend}
+              ></text-field>
+          <button button @click="${() => this.chatHandler.toggleType('voice')}" > toogle </button>
+        </div>
+          ` : html``
+      }
           ${state.type === 'voice' ? html`
             <button 
               @mousedown="${this.chatHandler.sendVoice}" 
@@ -156,9 +202,10 @@ export class Chat extends LitElement {
             </button>
             
             <button @click="${() => this.chatHandler.toggleType('text')}">toogle</button>
-          ` : html``}
-        </div>
-      </div>
+          ` : html``
+      }
+</div>
+  </div>
     `
   }
 }

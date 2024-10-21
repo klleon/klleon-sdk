@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import litcss from 'rollup-plugin-lit-css';
+import tsconfigPaths from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [
@@ -10,6 +11,7 @@ export default defineConfig({
     litcss({
       include: ['**/*.css'],
     }),
+    tsconfigPaths(),
   ],
   build: {
     lib: {

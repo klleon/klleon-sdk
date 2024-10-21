@@ -23,3 +23,9 @@ export const checkPermissions = async () => {
     }
   }
 }
+
+export const isMobile = () => {
+  const userAgent = navigator.userAgent
+
+  return /android|iPad|iPhone|iPod|windows phone/i.test(userAgent);
+}
